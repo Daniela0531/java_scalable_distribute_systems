@@ -6,20 +6,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
 public class MyController {
 
     private final Map<String, String> dataStore = new HashMap<>();
 
-    @GetMapping("/get/{key}")
-    public String getValue(@PathVariable String key) {
-        return dataStore.getOrDefault(key, "Not Found heeey");
+    @GetMapping("/get")
+    public ResponseEntity<String> getValue(@RequestParam(required = false) String key) {
+        String value = dataStore.get(key);
+        if (value != null) {
+            return ResponseEntity.ok("GET value = " + value + " by key = " + key);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PutMapping("/put/{key}")
-    public ResponseEntity<String> putValue(@PathVariable String key, @RequestBody String value) {
+//    @RequestBody
+    @PutMapping("/put")
+    public ResponseEntity<String> putValue(@RequestParam(required = false)  String key, @RequestParam(required = false)  String value) {
+        if (key == null || value == null) {
+            return ResponseEntity.ok("Nothing to put");
+        }
         dataStore.put(key, value);
-        return ResponseEntity.ok("Saved value for key: " + key);
+        return ResponseEntity.ok("PUT (key, value): (" + key + ", " + value + ")");
     }
 
 }

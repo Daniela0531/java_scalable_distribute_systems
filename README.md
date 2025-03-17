@@ -1,4 +1,6 @@
 # Scalable distributed systems
+
+## Задача
 Необходимо создать REST-сервис, реализующий два эндпоинта – POST для добавления записи в хранилище и 
 GET для получения значения по заданному ключу.  
 
@@ -24,3 +26,15 @@ GET-запрос по заданному ключу возвращает соо�
 Building a RESTful Web Service  
 Как работать с Curl  
 REST API для приложения со Spring Boot, Kotlin и Gradle
+
+## Решение
+Написан сервис.
+Для запуска необходимо запустить класс Application.
+
+Выполнение запросов:  
+
+GET:
+curl -X GET 'http://localhost:8080/get?key={key}'  
+
+PUT:
+curl -X PUT 'http://localhost:8080/put?key={key}&value={value}'

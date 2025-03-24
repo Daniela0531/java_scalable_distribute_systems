@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS key_value_table
+(
+    id    INTEGER PRIMARY KEY ,
+    key_  VARCHAR(200) NOT NULL ,
+    value_ VARCHAR(254) NOT NULL
+);
+--CREATE SEQUENCE clients_id_seq START WITH 3 INCREMENT BY 1;

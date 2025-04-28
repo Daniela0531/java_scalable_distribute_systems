@@ -1,5 +1,7 @@
 package com.example.demo;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +11,15 @@ import java.util.Optional;
 public class Controller {
     @Autowired
     private Repository repository;
+
+    @Value("${spring.datasource.url}")
+    public String url;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("URL: ");
+        System.out.println(url);
+    }
 
     @GetMapping("/get")
     public ResponseEntity<String> getValue(@RequestParam(required = false) String key) {

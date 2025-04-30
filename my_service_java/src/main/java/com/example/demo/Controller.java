@@ -9,21 +9,16 @@ import java.util.Optional;
 
 @RestController
 public class Controller {
-    @Autowired
-    private Repository repository;
+    private final DataService service;
 
-    @Value("${spring.datasource.url}")
-    public String url;
-
-    @PostConstruct
-    public void init() {
-        System.out.println("URL: ");
-        System.out.println(url);
+    public Controller(DataService dataService) {
+        this.service = dataService;
     }
+
 
     @GetMapping("/get")
     public ResponseEntity<String> getValue(@RequestParam(required = false) String key) {
-        Optional<Data> data = repository.findById(key);
+        Optional<Data> data = service.get(key);
         return data.map(value -> ResponseEntity.ok("Value for " + key + ": " + value.getValue()))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -34,9 +29,8 @@ public class Controller {
             return ResponseEntity.ok("Nothing to put");
         }
         Data data = new Data(key, value);
-        repository.save(data);
+        service.put(data);
         return ResponseEntity.ok("PUT (key, value): (" + key + ", " + value + ")");
     }
-
 }
 

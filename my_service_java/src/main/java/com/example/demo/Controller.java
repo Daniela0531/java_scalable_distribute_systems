@@ -18,7 +18,7 @@ public class Controller {
 
     @GetMapping("/get")
     public ResponseEntity<String> getValue(@RequestParam(required = false) String key) {
-        Optional<Data> data = service.get(key);
+        Optional<Data> data = service.findById(key);
         return data.map(value -> ResponseEntity.ok("Value for " + key + ": " + value.getValue()))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -29,7 +29,7 @@ public class Controller {
             return ResponseEntity.ok("Nothing to put");
         }
         Data data = new Data(key, value);
-        service.put(data);
+        service.saveData(data);
         return ResponseEntity.ok("PUT (key, value): (" + key + ", " + value + ")");
     }
 }

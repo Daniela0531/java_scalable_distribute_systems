@@ -13,7 +13,10 @@ public class Data {
 
     // Конструкторы, геттеры и сеттеры
 
-    public Data() {}
+    public Data() {
+        this.key = "";
+        this.value = "";
+    }
 
     public Data(String key, String value) {
         this.key = key;

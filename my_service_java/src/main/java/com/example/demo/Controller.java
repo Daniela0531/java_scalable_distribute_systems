@@ -1,5 +1,4 @@
 package com.example.demo;
-import com.example.demo.shard2.DataShard2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,8 @@ public class Controller {
 
     @GetMapping("/get")
     public ResponseEntity<String> getValue(@RequestParam(required = false) String key) {
-        Optional<DataShard2> data = service.findById(key);
+        Optional<Data> data = service.findById(key);
+        System.out.println(String.format("        my System.out.println(key) key = %s", key));
         return data.map(value -> ResponseEntity.ok("Value for " + key + ": " + value.getValue()))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -26,7 +26,7 @@ public class Controller {
         if (key == null || value == null) {
             return ResponseEntity.ok("Nothing to put");
         }
-        DataShard2 data = new DataShard2(key, value);
+        Data data = new Data(key, value);
         service.saveData(data);
         return ResponseEntity.ok("PUT (key, value): (" + key + ", " + value + ")");
     }

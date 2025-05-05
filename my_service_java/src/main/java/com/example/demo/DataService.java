@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.shard2.DataShard2;
+//import com.example.demo.shard2.DataRepositoryShard2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,13 @@ public class DataService {
     private static final Logger logger = Logger.getLogger(DataService.class.getName());
     private final Integer shardNumber = 2;
     private final JdbcTemplate shard1JdbcTemplate;
-//    private final JdbcTemplate shard2JdbcTemplate;
+    private final JdbcTemplate shard2JdbcTemplate;
 //    private final DataSource shard1DataSource;
 
 
-    public DataService(DataRepository repository, @Qualifier("shard1JdbcTemplate") JdbcTemplate shard1JdbcTemplate, DataSource shard1DataSource) {
+    public DataService(@Qualifier("shard1JdbcTemplate") JdbcTemplate shard1JdbcTemplate, @Qualifier("shard2JdbcTemplate") JdbcTemplate shard2JdbcTemplate, DataSource shard1DataSource) {
         this.shard1JdbcTemplate = shard1JdbcTemplate;
+        this.shard2JdbcTemplate = shard2JdbcTemplate;
     }
 
 //    public String testConnection() {
@@ -38,7 +41,7 @@ public class DataService {
 //        this.shard2JdbcTemplate = shard2JdbcTemplate;
 //    }
 
-    public Optional<Data> findById(String key) {
+    public Optional<DataShard2> findById(String key) {
         String sql = String.format("SELECT * FROM shard1 WHERE key = %s)", key);
         switch (Integer.getInteger(key) % shardNumber) {
             case 0:
@@ -46,7 +49,7 @@ public class DataService {
 //                return shard1JdbcTemplate.queryForObject(sql, new Object[]{key}, String.class);
 //        }
 
-        return Optional.of(shard1JdbcTemplate.queryForObject(sql, (rs, rowNum) -> new Data(
+        return Optional.of(shard1JdbcTemplate.queryForObject(sql, (rs, rowNum) -> new DataShard2(
                         rs.getString("key"),
                         rs.getString("value")
                 )));
@@ -63,12 +66,12 @@ public class DataService {
         }
 
         logger.info("Can't find element");
-        return Optional.of(new Data());
+        return Optional.of(new DataShard2());
 //        return repository.findById(key);
     }
 
 
-    public void saveData(Data data) {
+    public void saveData(DataShard2 data) {
         if (data.hashCode() % shardNumber == 0) {
             String sql = String.format("INSERT INTO shard1 (key, value) VALUES (%s, %s)", data.getKey(), data.getValue());
             shard1JdbcTemplate.update(sql);

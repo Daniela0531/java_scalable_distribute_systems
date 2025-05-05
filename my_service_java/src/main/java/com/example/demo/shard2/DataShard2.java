@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.shard2;
 //import javax.persistence.Entity;
 //import javax.persistence.Id;
 
@@ -6,19 +6,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Data {
+public class DataShard2 {
     @Id
     private String key;
     private String value;
 
     // Конструкторы, геттеры и сеттеры
 
-    public Data() {
+    public DataShard2() {
         this.key = "";
         this.value = "";
     }
 
-    public Data(String key, String value) {
+    public DataShard2(String key, String value) {
         this.key = key;
         this.value = value;
     }

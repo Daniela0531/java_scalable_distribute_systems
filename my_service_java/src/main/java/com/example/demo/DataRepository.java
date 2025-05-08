@@ -59,7 +59,7 @@ public class DataRepository {
              SELECT * FROM key_value WHERE key = ?;
          """, key);
         if (resultSet.next()) {
-            System.out.println(String.format("        my System.out.println(key) key = %s", resultSet.getString("key")));
+//            System.out.println(String.format("        my System.out.println(key) key = %s", resultSet.getString("key")));
             return new Data(resultSet.getString("key"), resultSet.getString("value"));
         }
         return null;

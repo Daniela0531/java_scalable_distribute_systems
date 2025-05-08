@@ -23,6 +23,7 @@ public class DataService {
 
 
     public void saveData(Data data) {
+        System.out.println("qwertyuiop");
         keyValueRepository.put(data.getKey(), data.getValue());
     }
 }

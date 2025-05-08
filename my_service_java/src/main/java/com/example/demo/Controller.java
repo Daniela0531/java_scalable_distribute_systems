@@ -12,6 +12,10 @@ public class Controller {
         this.service = dataService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("I am working");
+    }
 
     @GetMapping("/get")
     public ResponseEntity<String> getValue(@RequestParam(required = false) String key) {
@@ -22,10 +26,11 @@ public class Controller {
     }
 
     @PutMapping("/put")
-    public ResponseEntity<String> putValue(@RequestParam(required = false)  String key, @RequestParam(required = false)  String value) {
+    public ResponseEntity<String> putValue(@RequestParam(required = false) String key, @RequestParam(required = false) String value) {
         if (key == null || value == null) {
             return ResponseEntity.ok("Nothing to put");
         }
+        System.out.println("         @PutMapping(\"/put\")");
         Data data = new Data(key, value);
         service.saveData(data);
         return ResponseEntity.ok("PUT (key, value): (" + key + ", " + value + ")");
